@@ -11,6 +11,5 @@ Sync KeePass file between devices
 GITHUB_TOKEN=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
 ```
 - Run `npm start`.
-- Run `pm2 save`.
 
 A directory called "repo" will be generated at the root of the repository. Now you can put your .kdbx files in that directory.
