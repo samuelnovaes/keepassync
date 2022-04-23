@@ -1,0 +1,30 @@
+{
+	"name": "keepassync",
+	"version": "1.0.0",
+	"description": "Sync KeePass file between devices",
+	"main": "index.js",
+	"scripts": {
+		"start": "pm2 start index.js --name keepassync -- --color"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/samuelnovaes/keepassync.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/samuelnovaes/keepassync/issues"
+	},
+	"homepage": "https://github.com/samuelnovaes/keepassync#readme",
+	"dependencies": {
+		"@octokit/core": "^3.6.0",
+		"chalk": "^4.1.2",
+		"chokidar": "^3.5.3",
+		"dotenv": "^16.0.0",
+		"fs-extra": "^10.1.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.14.0"
+	}
+}
