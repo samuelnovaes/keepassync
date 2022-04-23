@@ -4,6 +4,7 @@ const path = require('path');
 const chalk = require('chalk');
 
 const dir = path.join(__dirname, 'repo');
+const readme = path.join(dir, 'README.md');
 
 class Repo {
 	constructor(owner, token, repo) {
@@ -23,25 +24,29 @@ class Repo {
 			});
 		});
 	}
-	async ensure(createReadme) {
+	async checkReadme() {
+		if(!await fs.pathExists(readme)) {
+			await fs.writeFile(readme, '# Keepass Sync Repo');
+			await this.push('Initial commit');
+		}
+	}
+	async ensure() {
 		if (await fs.pathExists(dir)) {
-			await this.exec('git pull origin main');
+			await this.checkReadme();
+			await this.exec('git pull');
 			console.log(chalk.bold.greenBright('GIT PULL'));
 		}
 		else {
 			await this.exec(`git clone https://${this.owner}:${this.token}@github.com/${this.owner}/${this.repo} ${dir}`, false);
 			console.log(chalk.bold.greenBright('GIT CLONE'));
-			if(createReadme) {
-				await fs.writeFile(path.join(dir, 'README.md'), '# Keepass Sync Repo');
-				await this.push('Initial commit');
-			}
+			await this.checkReadme();
 		}
 	}
 	async push(message) {
 		try {
 			await this.exec('git add .');
 			await this.exec(`git commit -m "${message}"`);
-			await this.exec('git push origin main');
+			await this.exec('git push');
 			console.log(chalk.bold.greenBright('GIT COMMIT'), message);
 		}
 		catch (error) { /** */ }

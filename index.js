@@ -8,7 +8,6 @@ const { Octokit } = require('@octokit/core');
 const token = process.env.GITHUB_TOKEN;
 const repo = 'keepassync_repo';
 const octokit = new Octokit({ auth: token });
-let createReadme = false;
 
 (async () => {
 
@@ -27,12 +26,11 @@ let createReadme = false;
 				name: repo,
 				private: true
 			});
-			createReadme = true;
 		}
 	}
 
 	const git = new Repo(owner, token, repo);
-	await git.ensure(createReadme);
+	await git.ensure();
 
 	const watch = chokidar.watch(path.join(__dirname, 'repo', '*.kdbx'), {
 		persistent: true
