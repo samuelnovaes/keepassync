@@ -8,11 +8,24 @@ const { Octokit } = require('@octokit/core');
 const token = process.env.GITHUB_TOKEN;
 const repo = 'keepassync_repo';
 const octokit = new Octokit({ auth: token });
+const chalk = require('chalk');
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 (async () => {
 
-	const info = await octokit.request('GET /user');
-	const owner = info.data.login;
+	let owner = null;
+
+	while (!owner) {
+		try {
+			console.log(chalk.bold.yellowBright('Try to get owner...'));
+			const info = await octokit.request('GET /user');
+			owner = info.data.login;
+			console.log(chalk.bold.yellowBright('Owner: ' + owner));
+		} catch (e) {
+			await wait(1000);
+		}
+	}
 
 	try {
 		await octokit.request('GET /repos/{owner}/{repo}', {
@@ -20,8 +33,8 @@ const octokit = new Octokit({ auth: token });
 			repo
 		});
 	}
-	catch(error) {
-		if(error.status === 404) {
+	catch (error) {
+		if (error.status === 404) {
 			await octokit.request('POST /user/repos', {
 				name: repo,
 				private: true
@@ -35,7 +48,7 @@ const octokit = new Octokit({ auth: token });
 	const watch = chokidar.watch(path.join(__dirname, 'repo', '*.kdbx'), {
 		persistent: true
 	});
-	
+
 	watch.on('all', async (event, file) => {
 		const filename = file.split(path.sep).pop();
 		await git.push(`${event} ${filename}`);
