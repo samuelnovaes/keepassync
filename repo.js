@@ -25,7 +25,7 @@ class Repo {
 		});
 	}
 	async checkReadme() {
-		if(!await fs.pathExists(readme)) {
+		if (!await fs.pathExists(readme)) {
 			await fs.writeFile(readme, '# Keepass Sync Repo');
 			await this.push('Initial commit');
 		}
