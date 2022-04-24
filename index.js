@@ -3,12 +3,12 @@ require('dotenv').config();
 const chokidar = require('chokidar');
 const path = require('path');
 const Repo = require('./repo.js');
+const chalk = require('chalk');
 const { Octokit } = require('@octokit/core');
 
 const token = process.env.GITHUB_TOKEN;
 const repo = 'keepassync_repo';
 const octokit = new Octokit({ auth: token });
-const chalk = require('chalk');
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
