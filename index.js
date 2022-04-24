@@ -22,7 +22,8 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 			const info = await octokit.request('GET /user');
 			owner = info.data.login;
 			console.log(chalk.bold.yellowBright('Owner: ' + owner));
-		} catch (e) {
+		}
+		catch (e) {
 			await wait(1000);
 		}
 	}
