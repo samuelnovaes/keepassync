@@ -2,6 +2,7 @@ const cp = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const { log } = require('./logger');
 
 const dir = path.join(__dirname, 'repo');
 const readme = path.join(dir, 'README.md');
@@ -34,11 +35,11 @@ class Repo {
 		if (await fs.pathExists(dir)) {
 			await this.checkReadme();
 			await this.exec('git pull');
-			console.log(chalk.bold.greenBright('GIT PULL'));
+			log(chalk.bold.greenBright('GIT PULL'));
 		}
 		else {
 			await this.exec(`git clone https://${this.owner}:${this.token}@github.com/${this.owner}/${this.repo} ${dir}`, false);
-			console.log(chalk.bold.greenBright('GIT CLONE'));
+			log(chalk.bold.greenBright('GIT CLONE'));
 			await this.checkReadme();
 		}
 	}
@@ -47,7 +48,7 @@ class Repo {
 			await this.exec('git add .');
 			await this.exec(`git commit -m "${message}"`);
 			await this.exec('git push');
-			console.log(chalk.bold.greenBright('GIT COMMIT'), message);
+			log(chalk.bold.greenBright('GIT COMMIT'), message);
 		}
 		catch (error) { /** */ }
 	}

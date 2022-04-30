@@ -4,11 +4,12 @@ const chokidar = require('chokidar');
 const path = require('path');
 const Repo = require('./repo.js');
 const { Octokit } = require('@octokit/core');
+const chalk = require('chalk');
+const { log } = require('./logger');
 
 const token = process.env.GITHUB_TOKEN;
 const repo = 'keepassync_repo';
 const octokit = new Octokit({ auth: token });
-const chalk = require('chalk');
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -18,10 +19,10 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	while (!owner) {
 		try {
-			console.log(chalk.bold.yellowBright('Try to get owner...'));
+			log(chalk.bold.yellowBright('Try to get owner...'));
 			const info = await octokit.request('GET /user');
 			owner = info.data.login;
-			console.log(chalk.bold.yellowBright('Owner: ' + owner));
+			log(chalk.bold.yellowBright('Owner: ' + owner));
 		} catch (e) {
 			await wait(1000);
 		}
