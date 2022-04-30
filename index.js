@@ -3,8 +3,8 @@ require('dotenv').config();
 const chokidar = require('chokidar');
 const path = require('path');
 const Repo = require('./repo.js');
-const { Octokit } = require('@octokit/core');
 const chalk = require('chalk');
+const { Octokit } = require('@octokit/core');
 const { log } = require('./logger');
 
 const token = process.env.GITHUB_TOKEN;
